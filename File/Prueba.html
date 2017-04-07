@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Ajedrez</title>
+		<link rel="stylesheet" href="estilo.css">
+
+<script>
+var movimiento = 0;
+var cont=0;
+function programarClicks(){
+// Recorre todo elementos td en la tabla y les asigna el listener onclick
+// window.alert( "Voy a programar los clicks" );
+// Buscar todas las casillas y guardar en un Array
+var casillas = document.querySelectorAll( "table td" );
+
+// Recorrer el Array
+for( var i=0; i < casillas.length; i++ ){
+// Programa el evento onclick para que llame al metodo elegir()
+casillas[i].addEventListener( "click", elegir );
+
+ }
+}
+function esp (ev,selec){
+     if(movimiento  < 2){
+        jugadas (ev,selec);
+        movimiento =  movimiento +1;
+     }else{
+         var conten1 = document.getElementById("anotacion");
+         conten1.innerText += "\n";
+         jugadas (ev,selec);
+         movimiento = 1 ;  
+     }
+
+}
+function jugadas(ev,selec) {    
+    var conten = document.getElementById("anotacion");
+    
+    if(ev.target.innerText == ""){
+        if((selec.innerText.charCodeAt(0) == "9823") || (selec.innerText.charCodeAt(0) == "9817")){
+                conten.innerText +=  " " + ev.target.id;
+
+        }else {
+             if((selec.innerText.charCodeAt(0) == "9820") || (selec.innerText.charCodeAt(0) == "9814")){
+                 conten.innerText += " T" + ev.target.id;
+
+             }else
+             if((selec.innerText.charCodeAt(0) == "9821") || (selec.innerText.charCodeAt(0) == "9815")){
+                conten.innerText += " A" + ev.target.id;
+
+             }else 
+             if((selec.innerText.charCodeAt(0) == "9819") || (selec.innerText.charCodeAt(0) == "9813")){
+                conten.innerText += " R" + ev.target.id;
+
+             }else                           
+             if((selec.innerText.charCodeAt(0) == "9818") || (selec.innerText.charCodeAt(0) == "9812")){
+                conten.innerText += " D" + ev.target.id;
+
+             }else
+             if((selec.innerText.charCodeAt(0) == "9822") || (selec.innerText.charCodeAt(0) == "9816")){
+                conten.innerText += " C" + ev.target.id;
+
+             }             
+        }
+
+
+    }else{
+        if((selec.innerText.charCodeAt(0) == "9823") || (selec.innerText.charCodeAt(0) == "9817")){
+            var  letra =  selec.id;
+            letra = letra.substring(0,1);
+            conten.innerText += " " + letra + "x" ;
+        }else{
+            conten.innerText  += " x" + ev.target.id ;
+        }
+    }
+
+
+}
+
+function verificar(ev, vari){
+if(ev.target.innerText != ""){
+var ant= false;
+var desp = false;
+var sele = ev.target.innerText.charCodeAt(0);
+sele = parseInt(sele);
+var vari = vari.innerText.charCodeAt(0);
+vari = parseInt(vari);
+//si la variable es false = blanca  
+if((sele >= 9818) && (sele <= 9823)){
+ant  =  true;
+}
+if((vari >= 9818) &&  (vari<=9823)){
+desp =  true;
+}
+if(ant ==  desp){
+return true;
+    }else return false;
+}else return false; 
+} 
+
+function ide(){
+var letras = ["a","b","c","d","e","f","g","h"];
+var numeros = ["1","2","3","4","5","6","7","8"];
+var casillas = document.querySelectorAll( "table td" );
+var cont = 8;
+var pos =  0 ;
+for(var  i= 0; i<letras.length* 8;i++){
+if(pos < 8){
+casillas[i].id = letras[pos] + cont;
+console.log(casillas[i].id + " " + casillas[i].innerText);
+pos++;
+}else {cont--;pos = 0 ; i--; };
+}
+
+
+}
+
+function id(ev){
+var sele = ev.target.innerText.charCodeAt(0);
+sele = parseInt(sele);
+if((sele >= 9818) && (sele <= 9823)){
+var h = document.getElementById("negras");
+h.innerText += ev.target.innerText + "";
+} else{
+var h = document.getElementById("blancas");
+h.innerText += ev.target.innerText + "";
+}
+
+}
+
+
+function elegir( ev, obj ){
+// Determinar si hay una seleccion anterior
+var seleccionado = document.querySelector( ".seleccionado" );
+
+if( seleccionado == null ){
+// No hay una seleccion previa
+// Cambiar la clase de la celda para mostrarla en otro color
+if( ev.target.innerText != "" ){
+ev.target.classList.add( "seleccionado" );
+ev.target.style.backgroundColor = "yellow";
+}
+} else {
+// Ya habia un elemento seleccionado
+// window.alert( "Ya hay una casilla seleccionada" );
+if(verificar(ev, seleccionado) ==  false){
+id(ev);
+esp(ev, seleccionado);    
+ev.target.innerText = seleccionado.innerText;
+seleccionado.innerText = "";
+seleccionado.style.backgroundColor = "";
+seleccionado.classList.remove("seleccionado" );
+}else{
+window.alert("Movimiento no permitido");
+} 
+}
+}
+</script>
+    </head>
+<center>
+<body onload= "programarClicks();ide();"  >
+
+    <h1> Ajedrez </h1>
+
+<div class  =  "b">
+<p id =  "blancas">
+
+</p>
+</div>
+ 
+ <table  border="1" >
+        
+    <tr>
+            <td onclick="elegir()" >&#9820</td>
+        
+            <td >&#9822 </td>
+        
+            <td>&#9821 </td>
+        
+            <td>&#9819 </td>
+        
+            <td>&#9818 </td>
+        
+            <td >&#9821 </td>
+        
+            <td  >&#9822 </td>
+        
+            <td >&#9820 </td>     
+    </tr>
+        
+    <tr>
+            <td >&#9823</td>
+            <td  >&#9823</td>
+            <td  >&#9823</td>
+            <td  >&#9823</td>
+            <td >&#9823</td>
+            <td  >&#9823</td>
+            <td >&#9823</td>
+            <td  >&#9823</td>     
+    </tr>
+    
+    <tr>
+            <td ></td>
+        
+            <td></td>
+        
+            <td ></td>
+        
+            <td></td>
+        
+            <td ></td>
+        
+            <td></td>
+        
+            <td ></td>
+        
+            <td></td>     
+    </tr>
+            
+    <tr>
+            <td></td>
+            <td ></td>
+            <td></td>
+            <td ></td>
+            <td></td>
+            <td ></td>
+            <td></td>
+            <td ></td>     
+    </tr>
+            
+    <tr>
+            <td ></td>
+            <td></td>
+            <td ></td>
+            <td></td>
+            <td ></td>
+            <td></td>
+            <td ></td>
+            <td></td>     
+    </tr>
+    
+    <tr>
+            <td></td>
+            <td ></td>
+            <td></td>
+            <td ></td>
+            <td></td>
+            <td ></td>
+            <td></td>
+            <td ></td>     
+    </tr>
+            
+    <tr>
+            <td  >&#9817</td>
+            <td >&#9817</td>
+            <td  >&#9817</td>
+            <td >&#9817</td>
+            <td  >&#9817</td>
+            <td >&#9817</td>
+            <td  >&#9817</td>
+            <td >&#9817</td>     
+    </tr>
+            
+            <tr>
+            <td >&#9814</td>
+            <td  >&#9816</td>
+            <td >&#9815</td>
+            <td  >&#9813</td>
+            <td >&#9812</td>
+            <td  >&#9815</td>
+            <td >&#9816</td>
+            <td  >&#9814</td>     
+    </tr>
+  
+        </table>
+<br></br>
+<div class = "a">
+<p id  = "negras" >
+
+</p>
+</div>
+<div>
+    <p  id ="anotacion" >
+    </p>
+
+</div>
+
+
+    </body>
+</center>
+</html>

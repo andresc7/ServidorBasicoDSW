@@ -1,0 +1,12 @@
+<html>
+<head>
+<title> Tipos de Whiskys</title>
+</head>
+<body>
+<div id="izquierda">
+<ul id = "menu">
+<li><a href=""><img src="fondo.jpg" alt="" title="" /></li
+</ul>
+</div>
+</body>
+</html>
